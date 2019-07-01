@@ -5,17 +5,17 @@ Density Peak is not applicable for large scale data, due to the two quantities, 
  The FastDPeak program was compiled under Windows using c++ with CodeBlocks 10.05.
 *********************************************************************************** 
 
-==================================================================================
-= Files
-==================================================================================
+***********************************************************************************
+ Files
+***********************************************************************************
 Unzip the "FastDPeak.zip" file, which will create folder mainly containing:
 - a project file named "FastDPeak.cbp".
 - a dataset folder named "data".
 - a c++ file named “main.cpp” is the main function file.
 - other c++ files
-==================================================================================
-= Environment configuration
-==================================================================================
+***********************************************************************************
+ Environment configuration
+***********************************************************************************
 
 Step1:
 - Download CodeBlocks in http://www.codeblocks.org/
@@ -25,9 +25,9 @@ Step2:
 - Open CodeBlock: choose “setting” ->”compiler and debugger”->”ToolChain executables”,and set the parameters like the “Figure 1” 
 
 Step3:
-==================================================================================
-= Dataset Formation
-==================================================================================
+***********************************************************************************
+ Dataset Formation
+***********************************************************************************
 The dataset should be given in a text file with the following formation:
 
 - each line represents a point with d numbers, where d is dimension:
@@ -57,9 +57,9 @@ For instance, the first 20 lines of the sample dataset "agg.txt" are shown as be
 In this example, there are 2 numbers in each line: the first line represents the first point with the coordinates (1.2   1.6), and its id is 1. Similarly, the rest nine lines specify the coordinates of the point with id = 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,
 16,17,18,19,20 respectively.  
 
-==================================================================================
-= Data Download
-==================================================================================
+***********************************************************************************
+ Data Download
+***********************************************************************************
 
 The data used in the paper can be downloaded from https://pan.baidu.com/s/1Yyawj0iwM2Mu8zrYioWb-w  Password: 3yje, as Figure 2 shows.
 
@@ -70,9 +70,9 @@ The data used in the paper can be downloaded from https://pan.baidu.com/s/1Yyawj
 -“synthesis_2.txt” is “SYN2”.
 -“synthesis_3.txt” is “SYN3”.
 
-==================================================================================
-= An example of quick start
-==================================================================================
+***********************************************************************************
+ An example of quick start
+***********************************************************************************
 Step1:
 Open project “FastDPeak.cbp” in Codeblocks.
 
@@ -110,9 +110,9 @@ Fast_Density_Peak(K,data_with_index,new_size,batch_num,dim,local_peak_threshold
 Step3:
 -Press the “Build and run” button in CodeBlocks under release mode.
 
-==================================================================================
-= Output Format
-==================================================================================
+***********************************************************************************
+ Output Format
+***********************************************************************************
 
 The clustering result is saved in “data\cl_results.txt”, and the output formation is:
 
@@ -141,8 +141,8 @@ The first two columns store coordinates of all point, and the last column repres
 
 For example, the first line (1.2  1.6  2) means that the first point is classified into cluster 2. If cluster ID is -1, it means this point is a noise.
 
-==================================================================================
-= Experiments
-==================================================================================
+***********************************************************************************
+ Experiments
+***********************************************************************************
 Some experiments we did in paper are listed in experiment_records.doc
 
