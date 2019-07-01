@@ -1,0 +1,122 @@
+# depslib dependency file v1.0
+1544322758 source:f:\code\fastdpeak\cover_tree.cc
+	"cover_tree.h"
+	<limits.h>
+	<values.h>
+	<stdint.h>
+	<iostream>
+	<numeric>
+
+1544322853 f:\code\fastdpeak\cover_tree.h
+	<string.h>
+	<math.h>
+	<list>
+	<stdlib.h>
+	<assert.h>
+	"point.h"
+
+1544322894 f:\code\fastdpeak\point.h
+	"stack.h"
+	<stdio.h>
+	<stdlib.h>
+
+1544322921 f:\code\fastdpeak\stack.h
+	<stdlib.h>
+
+1544323327 source:f:\code\fastdpeak\main.cpp
+	"cover_tree.h"
+	<windows.h>
+	<iostream>
+	<sstream>
+	<stdio.h>
+	<stdlib.h>
+	<algorithm>
+	"cyw_timer.h"
+
+1544323101 f:\code\fastdpeak\cyw_timer.h
+
+1544322788 source:f:\code\fastdpeak\point.cc
+	"point.h"
+	<assert.h>
+	<math.h>
+	<string.h>
+	<iostream>
+	<errno.h>
+
+1544344551 source:e:\experiment\code\fastdpeak\cover_tree.cc
+	"cover_tree.h"
+	<limits.h>
+	<values.h>
+	<stdint.h>
+	<iostream>
+	<numeric>
+
+1544343172 e:\experiment\code\fastdpeak\cover_tree.h
+	<string.h>
+	<math.h>
+	<list>
+	<stdlib.h>
+	<assert.h>
+	"point.h"
+
+1544322896 e:\experiment\code\fastdpeak\point.h
+	"stack.h"
+	<stdio.h>
+	<stdlib.h>
+
+1544322922 e:\experiment\code\fastdpeak\stack.h
+	<stdlib.h>
+
+1544322790 source:e:\experiment\code\fastdpeak\point.cc
+	"point.h"
+	<assert.h>
+	<math.h>
+	<string.h>
+	<iostream>
+	<errno.h>
+
+1544345777 source:e:\experiment\code\fastdpeak\main.cpp
+	"cover_tree.h"
+	<windows.h>
+	<iostream>
+	<sstream>
+	<stdio.h>
+	<stdlib.h>
+	<algorithm>
+	<time.h>
+	"cyw_timer.h"
+
+1544323102 e:\experiment\code\fastdpeak\cyw_timer.h
+
+1544771741 source:f:\code\fastdpeak\fastdpeak\cover_tree.cc
+	"cover_tree.h"
+	<limits.h>
+	<values.h>
+	<stdint.h>
+	<iostream>
+	<numeric>
+
+1544343174 f:\code\fastdpeak\fastdpeak\cover_tree.h
+	<string.h>
+	<math.h>
+	<list>
+	<stdlib.h>
+	<assert.h>
+	"point.h"
+
+1544322896 f:\code\fastdpeak\fastdpeak\point.h
+	"stack.h"
+	<stdio.h>
+	<stdlib.h>
+
+1544322922 f:\code\fastdpeak\fastdpeak\stack.h
+	<stdlib.h>
+
+1544786289 source:f:\code\fastdpeak\fastdpeak\point.cc
+	"point.h"
+	<assert.h>
+	<math.h>
+	<string.h>
+	<iostream>
+	<errno.h>
+
