@@ -572,7 +572,7 @@ void Fast_Density_Peak(char* data_file_name,int K, float* raw_data,int data_size
     memset(buffer_l,0,sizeof(buffer_l));
 
     strcat(buffer_l,"\n+-----------------------------------------------------------------------------+");
-    strcat(buffer_l,"\n|                     辅助驾驶数据快速峰值聚类系统 1.0                        |");
+    strcat(buffer_l,"\n|                            FastDPeak Version 1.0                            |");
     strcat(buffer_l,"\n|===============================+=============================================|");
     strcat(buffer_l,"\n|           File name           |               ");
     strcat(buffer_l,data_file_name);
