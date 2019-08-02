@@ -239,17 +239,17 @@ void quickSort(struct Point_K s[], int l, int r){
         struct Point_K x = s[l];
         while (i < j)
         {
-            while(i < j && s[j].d >= x.d) // ¥””“œÚ◊Û’“µ⁄“ª∏ˆ–°”⁄xµƒ ˝
+            while(i < j && s[j].d >= x.d) // ‰ªéÂè≥ÂêëÂ∑¶ÊâæÁ¨¨‰∏Ä‰∏™Â∞è‰∫éxÁöÑÊï∞
                 j--;
             if(i < j)
                 s[i++] = s[j];
-            while(i < j && s[i].d < x.d) // ¥”◊ÛœÚ”“’“µ⁄“ª∏ˆ¥Û”⁄µ»”⁄xµƒ ˝
+            while(i < j && s[i].d < x.d) // ‰ªéÂ∑¶ÂêëÂè≥ÊâæÁ¨¨‰∏Ä‰∏™Â§ß‰∫éÁ≠â‰∫éxÁöÑÊï∞
                 i++;
             if(i < j)
                 s[j--] = s[i];
         }
         s[i] = x;
-        quickSort(s, l, i - 1); // µ›πÈµ˜”√
+        quickSort(s, l, i - 1); // ÈÄíÂΩíË∞ÉÁî®
         quickSort(s, i + 1, r);
     }
 }
@@ -420,8 +420,8 @@ long PreProcess_local_density_peak(float* density,float* raw_data,float* dis_mat
     return c_d_n;
 }
 
-void Find_local_density_peak(float* density,int* tem_Core,float* delta,float* raw_data,int local_peak_threshold,
-                             float* dis_matrix,int data_size,int dim,int K,char* buffer_l,node node_data, node_p* node_p_ptr){
+int Find_local_density_peak(float* density,int* tem_Core,float* delta,float* raw_data,int local_peak_threshold,long long* C_D_N,
+                            float* dis_matrix,int data_size,int dim,int K,char* buffer_l,node node_data, node_p* node_p_ptr){
     CYW_TIMER c1_timer, c2_timer, c3_timer, c4_timer, c5_timer, c6_timer;
     c1_timer.start_my_timer();
     node_p * p = node_p_ptr;
@@ -432,17 +432,17 @@ void Find_local_density_peak(float* density,int* tem_Core,float* delta,float* ra
     sort(p,p+data_size,cmp);
     c1_timer.stop_my_timer();
     printf("Runtime of sorting density for source data is %f s\n",c1_timer.get_my_timer());
-    strcat(buffer_l,"\nRuntime of sorting density for source data: ");
+    strcat(buffer_l,"\n|    Sorting density for source data       |            ");
     c1_timer.strcat_to_buffer(buffer_l);
-    strcat(buffer_l,"s");
+    //strcat(buffer_l,"s");
 
     c6_timer.start_my_timer();
     long c_d_n = PreProcess_local_density_peak(density,raw_data,dis_matrix,delta,tem_Core,local_peak_threshold,data_size,K,dim,node_data);
     c6_timer.stop_my_timer();
     printf("Runtime of PreProcessing local density peak by local D_peak threshold is %f s\n",c6_timer.get_my_timer());
-    strcat(buffer_l,"\nRuntime of PreProcessing local density peak by local D_peak threshold: ");
+    strcat(buffer_l,"\n|    Preprocessing LDP by LPT              |            ");
     c6_timer.strcat_to_buffer(buffer_l);
-    strcat(buffer_l,"s");
+    //strcat(buffer_l,"s");
 
     int p_d = dim -1;//p_d is the dim of point except index
     int local_density_peak_num = 0;
@@ -517,19 +517,22 @@ void Find_local_density_peak(float* density,int* tem_Core,float* delta,float* ra
     printf("Runtime of finding order end,runtime is %f s\n",c5_timer.get_my_timer());
     //printf("\nRuntime of finding parent node for local density peak is %f s\n",c4_timer.get_my_timer());
     //std::cout << "compute distance num:" << compute_distance_num << endl;
-    strcat(buffer_l,"\ncompute distance num: ");
-    my_strcat(buffer_l,compute_distance_num);
+    //strcat(buffer_l,"\ncompute distance num: ");
+    //my_strcat(buffer_l,compute_distance_num);
+    *C_D_N = compute_distance_num;
     //std::cout << "local density peak num:" << local_density_peak_num << endl;
-    strcat(buffer_l,"\nlocal density peak num: ");
-    my_strcat(buffer_l,local_density_peak_num);
+    //strcat(buffer_l,"\nlocal density peak num: ");
+    //my_strcat(buffer_l,local_density_peak_num);
+    //LDP_N = local_density_peak_num;
     c2_timer.stop_my_timer();
     printf("Runtime of finding parent for local density peak is %f s\n",c2_timer.get_my_timer());
-    strcat(buffer_l,"\nRuntime of finding parent nodes for local density peak: ");
+    strcat(buffer_l,"\n|    Finding parent nodes for LDP          |            ");
     c2_timer.strcat_to_buffer(buffer_l);
-    strcat(buffer_l,"s");
+    //strcat(buffer_l,"s");
 
     free(flag);
     free(p);
+    return local_density_peak_num;
 }
 
 void Label_cluster(int* Point_cl,int* tem_Core,int* cluster,int cl,int data_size){
@@ -563,32 +566,48 @@ void Save_Result(int* result,int data_size,FILE* file){
     fclose(file);
 }
 
-void Fast_Density_Peak(int K, float* raw_data,int data_size,int batch_num,int dim,int local_peak_threshold,
+void Fast_Density_Peak(char* data_file_name,int K, float* raw_data,int data_size,int batch_num,int dim,int local_peak_threshold,
                     FILE* log_file, FILE* results,int cl,FILE* cl_results,float* dis_matrix, node_p *node_p_ptr){
     char buffer_l[10000];
     memset(buffer_l,0,sizeof(buffer_l));
 
-    strcat(buffer_l,"\n ---------------------------------------------");
-    strcat(buffer_l,"\n dim=");
+    strcat(buffer_l,"\n+-----------------------------------------------------------------------------+");
+    strcat(buffer_l,"\n|                     ËæÖÂä©È©æÈ©∂Êï∞ÊçÆÂø´ÈÄüÂ≥∞ÂÄºËÅöÁ±ªÁ≥ªÁªü 1.0                        |");
+    strcat(buffer_l,"\n|===============================+=============================================|");
+    strcat(buffer_l,"\n|           File name           |               ");
+    strcat(buffer_l,data_file_name);
+    strcat(buffer_l,"\n+-----------------------------------------------------------------------------+");
+    strcat(buffer_l,"\n|          Cardinality          |               ");
+    my_strcat(buffer_l,data_size);
+    strcat(buffer_l,"\n+-----------------------------------------------------------------------------+");
+    strcat(buffer_l,"\n|           Dimension           |               ");
     my_strcat(buffer_l,dim);
-    strcat(buffer_l,", size=");
-    my_strcat(buffer_l,data_size);
-    strcat(buffer_l,"\n query num=");
-    my_strcat(buffer_l,data_size);
+    strcat(buffer_l,"\n+-----------------------------------------------------------------------------+");
+    strcat(buffer_l,"\n|     Local Peak Threshold      |               ");
+    my_strcat(buffer_l,local_peak_threshold);
+    strcat(buffer_l,"\n+-----------------------------------------------------------------------------+");
+    strcat(buffer_l,"\n|               K               |               ");
+    my_strcat(buffer_l,K);
+    strcat(buffer_l,"\n+-----------------------------------------------------------------------------+");
 
     dim++;
     v_array<point> data_set = parse_points(raw_data,data_size,dim);
     CYW_TIMER build_source_timer, build_query_timer, query_timer, cl_timer, ctree_time;
     CYW_TIMER c1_dis_timer, c2_dis_timer, c3_dis_timer, c4_dis_timer, c5_dis_timer;
 
+    strcat(buffer_l,"\n+-----------------------------------------------------------------------------+");
+    strcat(buffer_l,"\n| Processes:                                             Running              |");
+    strcat(buffer_l,"\n|    Process name                                         Time(s)             |");
+    strcat(buffer_l,"\n+==========================================+==================================+");
+
     printf("building tree for source data....\n");
     build_source_timer.start_my_timer();
     node node_data = batch_create(data_set);
     build_source_timer.stop_my_timer();
     printf("Runtime of building tree for source data is %f s\n",build_source_timer.get_my_timer());
-    strcat(buffer_l,"\nRuntime of building tree for source data: ");
+    strcat(buffer_l,"\n|    Building tree for source data         |            ");
     build_source_timer.strcat_to_buffer(buffer_l);
-    strcat(buffer_l,"s");
+    //strcat(buffer_l,"s");
 
     int batch = data_size/batch_num;
     std::cout << "batch:" << batch << endl;
@@ -616,37 +635,41 @@ void Fast_Density_Peak(int K, float* raw_data,int data_size,int batch_num,int di
         node node_query = batch_create(queries);
         build_query_timer.stop_my_timer();
         printf("Runtime of building tree for query data is %f s\n",build_query_timer.get_my_timer());
-        strcat(buffer_l,"Runtime of building tree for query data: ");
-        build_query_timer.strcat_to_buffer(buffer_l);
-        strcat(buffer_l,"s");
+        if(i == batch-1){
+            strcat(buffer_l,"\n|    Building tree for query data          |            ");
+            build_query_timer.strcat_to_buffer(buffer_l);
+        }
+        //strcat(buffer_l,"s");
 
         query_timer.start_my_timer();
         k_nearest_neighbor_new(node_data,node_query,res[i],K,dim);
         query_timer.stop_my_timer();
         printf("K = %d, runtime of kNN is %f s\n",K,query_timer.get_my_timer());
 
+        /*
         strcat(buffer_l,"\n K= ");
         my_strcat(buffer_l, K);
         strcat(buffer_l,", runtime of kNN:");
         query_timer.strcat_to_buffer(buffer_l);
         strcat(buffer_l,"s");
+        */
         queries.free_resource();
     }
     data_set.free_resource();
     ctree_time.stop_my_timer();
 
     printf("K = %d,runtime of building covertree and KNN is %f s\n",K,ctree_time.get_my_timer());
-    strcat(buffer_l,"\nRuntime of building covertree and KNN for data: ");
+    strcat(buffer_l,"\n|    Building covertree and KNN            |            ");
     ctree_time.strcat_to_buffer(buffer_l);
-    strcat(buffer_l,"s");
+    //strcat(buffer_l,"s");
 
     c1_dis_timer.start_my_timer();
     ComputeDistance(res,dim,batch,batch_num,K,dis_matrix,raw_data);
     c1_dis_timer.stop_my_timer();
     printf("Runtime of computing distance for query data: %f s\n",c1_dis_timer.get_my_timer());
-    strcat(buffer_l,"\nRuntime of computing distance for query data: ");
+    strcat(buffer_l,"\n|    Computing distance for query data     |            ");
     c1_dis_timer.strcat_to_buffer(buffer_l);
-    strcat(buffer_l,"s");
+    //strcat(buffer_l,"s");
 
     for (int i = 0;i < res->length;i++){
         res->elements[i].free_resource();
@@ -667,11 +690,15 @@ void Fast_Density_Peak(int K, float* raw_data,int data_size,int batch_num,int di
     Find_tem_core(dis_matrix,density,tem_core,delta,d_size,K);
     c2_dis_timer.stop_my_timer();
     printf("Runtime of finding initiative LDP for data %f s\n",c2_dis_timer.get_my_timer());
-    strcat(buffer_l,"\nRuntime of finding initiative LDP for data: ");
+    strcat(buffer_l,"\n|    Finding initiative LDP for data       |            ");
     c2_dis_timer.strcat_to_buffer(buffer_l);
-    strcat(buffer_l,"s");
+    //strcat(buffer_l,"s");
 
-    Find_local_density_peak(density,tem_core,delta,raw_data,local_peak_threshold,dis_matrix,d_size,dim,K,buffer_l,node_data, node_p_ptr);
+    long long C_D_N = 0;
+    int LDP_N = 0;
+
+    LDP_N = Find_local_density_peak(density,tem_core,delta,raw_data,local_peak_threshold,&C_D_N,dis_matrix,d_size,dim,K,buffer_l,node_data,node_p_ptr);
+    //Find_local_density_peak(density,tem_core,delta,raw_data,local_peak_threshold,dis_matrix,d_size,dim,K,buffer_l,node_data, node_p_ptr);
 
     c3_dis_timer.start_my_timer();
     int* cluster = FindCluster(density,delta,cl,d_size);
@@ -681,9 +708,9 @@ void Fast_Density_Peak(int K, float* raw_data,int data_size,int batch_num,int di
     */
     c3_dis_timer.stop_my_timer();
     printf("Runtime of determining final clusters %f s\n",c3_dis_timer.get_my_timer());
-    strcat(buffer_l,"\nRuntime of determining final clusters: ");
+    strcat(buffer_l,"\n|    Determing final clusters              |            ");
     c3_dis_timer.strcat_to_buffer(buffer_l);
-    strcat(buffer_l,"s");
+    //strcat(buffer_l,"s");
     delete density;
     free(delta);
 
@@ -692,16 +719,49 @@ void Fast_Density_Peak(int K, float* raw_data,int data_size,int batch_num,int di
     Label_cluster(Point_cl,tem_core,cluster,cl,data_size);
     c4_dis_timer.stop_my_timer();
     printf("Runtime of labeling cluster for data is %f s\n",c4_dis_timer.get_my_timer());
-    strcat(buffer_l,"\nRuntime of labeling cluster for data: ");
+    strcat(buffer_l,"\n|    Labeling cluster for data             |            ");
     c4_dis_timer.strcat_to_buffer(buffer_l);
-    strcat(buffer_l,"s");
-    free(cluster);
+    //strcat(buffer_l,"s");
+    strcat(buffer_l,"\n+------------------------------------------+----------------------------------+");
 
     cl_timer.stop_my_timer();
     printf("Runtime of clustering for data is %f s\n",cl_timer.get_my_timer());
-    strcat(buffer_l,"\nRuntime of total: ");
+
+    strcat(buffer_l,"\n+-----------------------------------------------------------------------------+");
+    strcat(buffer_l,"\n|                          Result of FastDPeak clustering                     |");
+    strcat(buffer_l,"\n+===============================+=============================================+");
+    strcat(buffer_l,"\n|        Overall runtime        |                   ");
     cl_timer.strcat_to_buffer(buffer_l);
     strcat(buffer_l,"s");
+    strcat(buffer_l,"\n+-------------------------------+---------------------------------------------+");
+    strcat(buffer_l,"\n|      Compute distance num     |                     ");
+    my_strcat(buffer_l,C_D_N);
+    strcat(buffer_l,"\n+-------------------------------+---------------------------------------------+");
+    strcat(buffer_l,"\n|            LDP num            |                     ");
+    my_strcat(buffer_l,LDP_N);
+    strcat(buffer_l,"\n+-------------------------------+---------------------------------------------+");
+    strcat(buffer_l,"\n|            cluster                                 Points                   |");
+    strcat(buffer_l,"\n+===============================+=============================================+");
+
+    int *cl_points = (int *)malloc((cl+1)*sizeof(int));
+    for(int i = 0;i < cl+1;i++){
+        cl_points[i] = 0;
+    }
+    int temp;
+    for(int i = 0;i < data_size;i++){
+        temp = Point_cl[i];
+        cl_points[temp] ++;
+    }
+    for(int i = 1;i <= cl;i++){
+        strcat(buffer_l,"\n|               ");
+        my_strcat(buffer_l,i);
+        strcat(buffer_l,"               |                     ");
+        my_strcat(buffer_l,cl_points[i]);
+    }
+    strcat(buffer_l,"\n+-------------------------------+---------------------------------------------+");
+
+    free(cl_points);
+    free(cluster);
 
     write_file_log(buffer_l,log_file);
     fclose(log_file);
