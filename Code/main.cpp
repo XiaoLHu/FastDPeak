@@ -796,7 +796,7 @@ int main(int argc, char *const argv[]){
     float *dis_matrix = (float*)malloc(3*data_size*K*sizeof(float));
     node_p *node_p_ptr = new node_p [data_size];
     //perform Fast Density Peak Clustering
-    Fast_Density_Peak(K,data_with_index,new_size,batch_num,dim,local_peak_threshold
+    Fast_Density_Peak(data_file_name,K,data_with_index,new_size,batch_num,dim,local_peak_threshold
                       ,log_file,results,cl,cl_results,dis_matrix,node_p_ptr);
 
     free(data_with_index);
