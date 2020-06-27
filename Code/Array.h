@@ -22,7 +22,6 @@
 #include <iomanip>
 #include <cmath>
 #include <cstdlib>
-#include "cyw_types.h"
 
 enum MType { DIAG };
 template <typename T> class Matrix;
