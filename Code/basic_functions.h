@@ -13,7 +13,6 @@
 #include <stdlib.h>
 #include "conio.h"
 #include "Array.hh"
-#include "cyw_types.h"
 
 
 template<typename T>
